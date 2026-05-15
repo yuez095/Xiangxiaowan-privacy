@@ -87,6 +87,10 @@
       margin-bottom: 24px;
     }
 
+    .panel .btn {
+      margin-top: 12px;
+    }
+
     .files {
       display: grid;
       gap: 12px;
@@ -157,7 +161,11 @@
     </header>
 
     <div class="panel">
-      包含：2 个 CSV 文件、3 个 XLSX 文件，以及 1 个测试说明文件。
+      包含 5 个数据文件（2 个 CSV + 3 个 XLSX）。可一键下载 ZIP。
+      <br>
+      ZIP 内包含一个名为 "xiangxiaowan_sample data" 的文件夹。
+      <br>
+      <a class="btn" href="sample-data/xiangxiaowan_sample_data.zip" download>一键下载全部 5 个文件（.zip）</a>
       <br>
       <br>
       导入提示：在应用中进入「导入管理」，点击「一键导入」，一次选择这 5 个文件。
@@ -166,14 +174,6 @@
     </div>
 
     <section class="files" aria-label="示例数据文件列表">
-      <article class="file">
-        <div>
-          <div class="name">README_for_App_Review.txt</div>
-          <div class="meta">测试步骤说明</div>
-        </div>
-        <a class="btn" href="sample-data/README_for_App_Review.txt" download>下载</a>
-      </article>
-
       <article class="file">
         <div>
           <div class="name">美团_外卖_sample.csv</div>
