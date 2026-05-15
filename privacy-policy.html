@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Privacy Policy | Xiangxiaowan Business Assistant</title>
   <meta name="description" content="Privacy Policy for Xiangxiaowan Business Assistant. Learn how the app handles restaurant delivery data, exports reports, and stores local app data.">
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const lang = (params.get("lang") || "").toLowerCase();
+      if (lang.startsWith("zh")) {
+        window.location.replace("privacy-policy.zh.html");
+      }
+    })();
+  </script>
   <style>
     :root {
       color-scheme: light;
@@ -131,6 +140,7 @@
   <main class="page">
     <header>
       <p class="eyebrow">Xiangxiaowan Business Assistant</p>
+      <p><a href="privacy-policy.zh.html?lang=zh">中文</a></p>
       <h1>Privacy Policy</h1>
       <p class="lead">This policy explains how Xiangxiaowan Business Assistant handles restaurant delivery data, imported files, exported reports, and local app data.</p>
       <div class="updated">Last updated: May 13, 2026</div>
@@ -187,7 +197,7 @@
     </section>
 
     <footer>
-      <p>© 2026 Xiangxiaowan Business Assistant. <a href="support.html">Support</a> · <a href="marketing.html">Back to Home</a></p>
+      <p>© 2026 Xiangxiaowan Business Assistant. <a href="support.html?lang=en">Support</a> · <a href="marketing.html?lang=en">Back to Home</a></p>
     </footer>
   </main>
 </body>

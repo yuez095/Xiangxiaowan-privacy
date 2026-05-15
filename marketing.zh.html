@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>湘小婉经营助手 | 外卖经营报表与分析</title>
+  <meta name="description" content="湘小婉经营助手帮助餐厅老板整理外卖平台数据，生成周报、月报、平台对比、门店对比和可导出的经营分析报告。">
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const lang = (params.get("lang") || "").toLowerCase();
+      if (lang.startsWith("en")) {
+        window.location.replace("marketing.html");
+      }
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17211b;
+      --muted: #657268;
+      --line: #e1e7df;
+      --paper: #fffdf8;
+      --soft: #f6f1e7;
+      --brand: #b5362f;
+      --brand-dark: #7e241f;
+      --green: #2f6d50;
+      --gold: #b78124;
+      --blue: #426b9f;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+
+    a { color: inherit; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255, 253, 248, 0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav {
+      width: min(1160px, calc(100% - 32px));
+      min-height: 64px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      color: var(--brand-dark);
+      font-size: 19px;
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .navlinks {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .navlinks a { text-decoration: none; }
+
+    .button {
+      display: inline-flex;
+      min-height: 42px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--brand-dark);
+      border-radius: 8px;
+      background: var(--brand);
+      color: var(--white);
+      padding: 0 16px;
+      text-decoration: none;
+      font-weight: 800;
+      box-shadow: 0 10px 22px rgba(126, 36, 31, 0.16);
+    }
+
+    .button.secondary { background: transparent; color: var(--brand-dark); box-shadow: none; }
+
+    .hero {
+      background: #233229;
+      color: var(--white);
+      min-height: 680px;
+      display: grid;
+      align-items: end;
+      border-bottom: 1px solid #1b271f;
+    }
+
+    .hero-inner {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 78px 0 42px;
+    }
+
+    .hero-copy { max-width: 860px; padding-bottom: 34px; }
+    .eyebrow { color: #ffdca0; font-size: 15px; font-weight: 800; margin: 0 0 12px; }
+
+    h1 {
+      font-size: clamp(42px, 8vw, 88px);
+      line-height: 0.98;
+      letter-spacing: 0;
+      margin: 0 0 22px;
+    }
+
+    .hero p {
+      color: #dbe6dd;
+      font-size: clamp(18px, 2vw, 23px);
+      max-width: 780px;
+      margin: 0;
+    }
+
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+    .hero .button.secondary { border-color: #d7dfd8; color: #ffffff; }
+
+    .dashboard {
+      background: #fbfaf5;
+      color: var(--ink);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.24);
+    }
+
+    .dashboard-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid var(--line);
+      padding: 16px 18px;
+    }
+
+    .dashboard-title { font-size: 15px; font-weight: 900; margin: 0; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; color: var(--muted); font-size: 13px; font-weight: 800; }
+    .chip { border: 1px solid var(--line); border-radius: 999px; padding: 5px 10px; background: var(--white); }
+
+    .dashboard-body {
+      display: grid;
+      grid-template-columns: 0.9fr 1.4fr;
+      gap: 18px;
+      padding: 18px;
+    }
+
+    .metrics { display: grid; gap: 12px; }
+
+    .metric {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .metric strong { display: block; font-size: 28px; line-height: 1.1; }
+
+    .metric em {
+      color: var(--green);
+      display: block;
+      font-style: normal;
+      font-size: 13px;
+      font-weight: 800;
+      margin-top: 6px;
+    }
+
+    .chart-panel {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      min-height: 316px;
+    }
+
+    .chart-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    svg { display: block; width: 100%; height: auto; }
+
+    .report-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      font-size: 13px;
+    }
+
+    .report-table th,
+    .report-table td {
+      border-top: 1px solid var(--line);
+      padding: 9px 8px;
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .report-table th:first-child,
+    .report-table td:first-child { text-align: left; }
+
+    main section {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 72px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h2 {
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.1;
+      letter-spacing: 0;
+      margin: 0 0 16px;
+      max-width: 820px;
+    }
+
+    .section-lead {
+      color: var(--muted);
+      font-size: 19px;
+      max-width: 760px;
+      margin: 0 0 34px;
+    }
+
+    .feature-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+
+    .feature {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 22px;
+      min-height: 190px;
+    }
+
+    .feature .tag { color: var(--brand); font-size: 13px; font-weight: 900; margin-bottom: 14px; }
+    .feature h3 { font-size: 21px; line-height: 1.25; margin: 0 0 10px; }
+    .feature p { color: var(--muted); margin: 0; }
+
+    .decision-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1px;
+      background: var(--line);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .decision { background: var(--soft); padding: 20px; }
+    .decision strong { display: block; color: var(--brand-dark); font-size: 22px; margin-bottom: 6px; }
+    .decision span { color: var(--muted); font-size: 14px; font-weight: 700; }
+
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+
+    .plain-panel {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 26px;
+    }
+
+    .plain-panel h3 { margin: 0 0 10px; font-size: 24px; }
+    .plain-panel p { color: var(--muted); margin: 0; }
+
+    .cta { background: var(--soft); width: 100%; border-bottom: 0; }
+
+    .cta-inner {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 64px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .cta h2 { margin-bottom: 10px; }
+    .cta p { color: var(--muted); font-size: 18px; margin: 0; max-width: 650px; }
+
+    footer {
+      width: min(1160px, calc(100% - 32px));
+      margin: 0 auto;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 28px 0;
+      font-size: 14px;
+    }
+
+    footer a {
+      color: var(--brand-dark);
+      font-weight: 800;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+    }
+
+    @media (max-width: 860px) {
+      .nav { align-items: flex-start; flex-direction: column; padding: 16px 0; }
+      .navlinks { width: 100%; overflow-x: auto; padding-bottom: 2px; }
+      .hero { min-height: auto; }
+      .hero-inner { padding-top: 48px; }
+      .dashboard-body, .feature-grid, .decision-strip, .two-col, .cta-inner { grid-template-columns: 1fr; }
+      .cta-inner, footer { align-items: flex-start; flex-direction: column; }
+      .dashboard-head { align-items: flex-start; flex-direction: column; }
+      .report-table { display: block; overflow-x: auto; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="nav" aria-label="主导航">
+      <a class="brand" href="#">湘小婉经营助手</a>
+      <div class="navlinks">
+        <a href="#features">功能</a>
+        <a href="#decisions">经营判断</a>
+        <a href="#privacy">隐私</a>
+        <a href="support.zh.html?lang=zh">支持</a>
+        <a href="marketing.html?lang=en">EN</a>
+        <a class="button" href="#download">获取应用</a>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow">为餐厅老板做的外卖经营报表工具</p>
+        <h1>湘小婉经营助手</h1>
+        <p>把美团、饿了么、京东外卖等平台数据整理成老板看得懂的周报、月报、门店对比和平台趋势，帮助你更快看出哪里赚钱、哪里需要调整。</p>
+        <div class="hero-actions">
+          <a class="button" href="#download">获取应用</a>
+          <a class="button secondary" href="privacy-policy.zh.html?lang=zh">查看隐私政策</a>
+        </div>
+      </div>
+
+      <div class="dashboard" aria-label="经营分析报表预览">
+        <div class="dashboard-head">
+          <p class="dashboard-title">全部门店 · 2026年4月经营概览</p>
+          <div class="chips">
+            <span class="chip">平台汇总</span>
+            <span class="chip">周报</span>
+            <span class="chip">月报</span>
+            <span class="chip">可导出 HTML</span>
+          </div>
+        </div>
+        <div class="dashboard-body">
+          <div class="metrics">
+            <div class="metric">
+              <span>总营收</span>
+              <strong>¥128,460</strong>
+              <em>较上期 +8.4%</em>
+            </div>
+            <div class="metric">
+              <span>订单量</span>
+              <strong>4,218</strong>
+              <em>午高峰增长明显</em>
+            </div>
+            <div class="metric">
+              <span>客单价</span>
+              <strong>¥30.46</strong>
+              <em>套餐组合表现更稳</em>
+            </div>
+          </div>
+
+          <div class="chart-panel">
+            <div class="chart-title">
+              <span>各平台营收趋势</span>
+              <span>可悬停查看明细</span>
+            </div>
+            <svg viewBox="0 0 620 230" role="img" aria-label="外卖平台营收趋势折线图">
+              <rect x="0" y="0" width="620" height="230" fill="#ffffff"></rect>
+              <g stroke="#e1e7df" stroke-width="1">
+                <line x1="42" y1="36" x2="596" y2="36"></line>
+                <line x1="42" y1="82" x2="596" y2="82"></line>
+                <line x1="42" y1="128" x2="596" y2="128"></line>
+                <line x1="42" y1="174" x2="596" y2="174"></line>
+              </g>
+              <polyline points="48,154 138,126 228,132 318,94 408,82 498,62 588,54" fill="none" stroke="#b5362f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></polyline>
+              <polyline points="48,172 138,166 228,142 318,136 408,112 498,118 588,96" fill="none" stroke="#2f6d50" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></polyline>
+              <polyline points="48,184 138,178 228,170 318,152 408,146 498,132 588,124" fill="none" stroke="#426b9f" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></polyline>
+              <g font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="12" fill="#657268" font-weight="700">
+                <text x="42" y="214">第1周</text>
+                <text x="218" y="214">第2周</text>
+                <text x="398" y="214">第3周</text>
+                <text x="548" y="214">第4周</text>
+              </g>
+              <g>
+                <circle cx="588" cy="54" r="5" fill="#b5362f"></circle>
+                <circle cx="588" cy="96" r="5" fill="#2f6d50"></circle>
+                <circle cx="588" cy="124" r="5" fill="#426b9f"></circle>
+              </g>
+            </svg>
+            <table class="report-table">
+              <thead>
+                <tr>
+                  <th>平台</th>
+                  <th>营收</th>
+                  <th>订单</th>
+                  <th>客单价</th>
+                  <th>趋势</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>美团</td>
+                  <td>¥68,920</td>
+                  <td>2,126</td>
+                  <td>¥32.42</td>
+                  <td>上升</td>
+                </tr>
+                <tr>
+                  <td>饿了么</td>
+                  <td>¥41,780</td>
+                  <td>1,486</td>
+                  <td>¥28.12</td>
+                  <td>稳定</td>
+                </tr>
+                <tr>
+                  <td>京东外卖</td>
+                  <td>¥17,760</td>
+                  <td>606</td>
+                  <td>¥29.31</td>
+                  <td>恢复</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main>
+    <section id="features">
+      <h2>从外卖平台数据，到可以直接开会看的经营报告</h2>
+      <p class="section-lead">应用围绕餐厅老板最常问的问题设计：本周赚了多少、哪个平台贡献最大、哪家店表现最好、活动有没有把客单价拉低、下周应该重点看哪里。</p>
+
+      <div class="feature-grid">
+        <article class="feature">
+          <div class="tag">01 · 周报与月报</div>
+          <h3>按真实日期汇总经营表现</h3>
+          <p>支持周度、月度报表，月报按自然月第一天到最后一天计算，避免跨周数据造成误读。</p>
+        </article>
+        <article class="feature">
+          <div class="tag">02 · 平台与门店</div>
+          <h3>汇总看全局，对比找问题</h3>
+          <p>可以查看全部平台汇总，也可以对比不同平台和不同门店，快速定位营收、订单、客单价差异。</p>
+        </article>
+        <article class="feature">
+          <div class="tag">03 · 可交互图表</div>
+          <h3>折线图、指标卡、明细表一起看</h3>
+          <p>图表支持悬停查看细节，数值可以复制，适合复盘、汇报和与店长沟通。</p>
+        </article>
+        <article class="feature">
+          <div class="tag">04 · 完整导出</div>
+          <h3>导出 HTML 和 CSV 报告</h3>
+          <p>将经营数据、指标说明、图表和分析结论整理成一份完整报告，方便存档和发送。</p>
+        </article>
+        <article class="feature">
+          <div class="tag">05 · 解释清楚</div>
+          <h3>指标说明写给经营者</h3>
+          <p>不仅给数字，也解释指标含义，让老板和团队理解为什么这个指标值得关注。</p>
+        </article>
+        <article class="feature">
+          <div class="tag">06 · 为未来集成保留空间</div>
+          <h3>适合继续接入平台和门店系统</h3>
+          <p>结构支持后续扩展更多平台、自动导入、云同步、团队协作和更丰富的经营模型。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="decisions">
+      <h2>老板每天需要判断的事情，放在同一个地方</h2>
+      <p class="section-lead">报表不只是漂亮图表，而是帮助你更快做经营决策：该加大哪个平台、哪家店要优化、活动是否值得继续、哪一周出现异常。</p>
+      <div class="decision-strip">
+        <div class="decision">
+          <strong>营收</strong>
+          <span>看总盘子和平台贡献</span>
+        </div>
+        <div class="decision">
+          <strong>订单</strong>
+          <span>判断流量是否稳定</span>
+        </div>
+        <div class="decision">
+          <strong>客单价</strong>
+          <span>发现套餐和活动影响</span>
+        </div>
+        <div class="decision">
+          <strong>门店</strong>
+          <span>找出强店与弱店差异</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="privacy">
+      <div class="two-col">
+        <div>
+          <h2>数据优先在本地处理，报表由你自己保存</h2>
+          <p class="section-lead">餐厅经营数据很敏感。湘小婉经营助手的默认使用方式是不需要账号、不主动上传文件，导入和导出的数据由你掌握。</p>
+        </div>
+        <div class="plain-panel">
+          <h3>适合 App Store 隐私说明</h3>
+          <p>如果当前版本没有账号、广告追踪或服务器上传行为，可以在 App Store Connect 中按“未收集数据”的方向填写。未来接入云功能时，再同步更新隐私政策。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="cta" id="download">
+    <div class="cta-inner">
+      <div>
+        <h2>准备好把外卖数据变成经营判断</h2>
+        <p>将这个页面作为 App Store 的营销网站或支持网站使用。上架后可以把按钮链接替换成真实 App Store 地址。</p>
+      </div>
+      <div class="hero-actions">
+        <a class="button" href="support.zh.html?lang=zh">联系支持</a>
+        <a class="button secondary" href="privacy-policy.zh.html?lang=zh">隐私政策</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 湘小婉经营助手</span>
+    <span><a href="privacy-policy.zh.html?lang=zh">隐私政策</a> · <a href="support.zh.html?lang=zh">支持</a></span>
+  </footer>
+</body>
+</html>

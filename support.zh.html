@@ -1,16 +1,16 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Support | Xiangxiaowan Business Assistant</title>
-  <meta name="description" content="Support page for Xiangxiaowan Business Assistant. Get help with data import/export, report usage, FAQs, and support contact details.">
+  <title>支持 | 湘小婉经营助手</title>
+  <meta name="description" content="湘小婉经营助手支持页面。获取应用使用帮助、数据导入导出说明、常见问题和联系邮箱。">
   <script>
     (function () {
       const params = new URLSearchParams(window.location.search);
       const lang = (params.get("lang") || "").toLowerCase();
-      if (lang.startsWith("zh")) {
-        window.location.replace("support.zh.html");
+      if (lang.startsWith("en")) {
+        window.location.replace("support.html");
       }
     })();
   </script>
@@ -28,9 +28,7 @@
       --white: #ffffff;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -102,9 +100,7 @@
       margin: 22px 0 4px;
     }
 
-    .summary strong {
-      color: var(--brand-dark);
-    }
+    .summary strong { color: var(--brand-dark); }
 
     section {
       padding: 26px 0;
@@ -118,18 +114,9 @@
       letter-spacing: 0;
     }
 
-    p {
-      margin: 0 0 14px;
-    }
-
-    ul {
-      margin: 0;
-      padding-left: 22px;
-    }
-
-    li + li {
-      margin-top: 8px;
-    }
+    p { margin: 0 0 14px; }
+    ul { margin: 0; padding-left: 22px; }
+    li + li { margin-top: 8px; }
 
     .support-grid {
       display: grid;
@@ -162,75 +149,68 @@
       padding-top: 26px;
     }
 
-    footer a {
-      font-weight: 800;
-    }
+    footer a { font-weight: 800; }
 
     @media (max-width: 720px) {
-      .page {
-        padding-top: 40px;
-      }
-
-      .support-grid {
-        grid-template-columns: 1fr;
-      }
+      .page { padding-top: 40px; }
+      .support-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
   <main class="page">
     <header>
-      <p class="eyebrow">Xiangxiaowan Business Assistant</p>
-      <p><a href="support.zh.html?lang=zh">中文</a></p>
-      <h1>Support</h1>
-      <p class="lead">If you run into issues importing delivery data, reading reports, exporting files, or using the app, you can get help here and contact us directly.</p>
-      <a class="contact" href="mailto:zhaoyue095@gmail.com">Contact Support</a>
+      <p class="eyebrow">湘小婉经营助手</p>
+      <p><a href="support.html?lang=en">EN</a></p>
+      <h1>支持</h1>
+      <p class="lead">如果您在导入外卖数据、查看经营报表、导出文件或使用应用时遇到问题，可以通过本页面获取帮助并联系我们。</p>
+      <a class="contact" href="mailto:zhaoyue095@gmail.com">联系支持</a>
     </header>
 
     <div class="summary">
-      <p><strong>Support email:</strong> <a href="mailto:zhaoyue095@gmail.com">zhaoyue095@gmail.com</a></p>
-      <p>When you contact us, include your app version, macOS version, where the issue occurs, and screenshots or error details that help us reproduce the problem.</p>
+      <p><strong>支持邮箱：</strong><a href="mailto:zhaoyue095@gmail.com">zhaoyue095@gmail.com</a></p>
+      <p>来信时建议附上应用版本、macOS 版本、遇到问题的页面，以及可以帮助定位问题的截图或错误提示。</p>
     </div>
 
     <section>
-      <h2>Frequently Asked Questions</h2>
+      <h2>常见问题</h2>
       <div class="support-grid">
         <article class="support-card">
-          <h3>Cannot import a file</h3>
-          <p>Confirm the file comes from a supported platform export and that required fields such as headers, dates, amounts, and order counts are complete.</p>
+          <h3>无法导入文件</h3>
+          <p>请确认文件来自支持的平台导出格式，并检查表头、日期、金额和订单量等字段是否完整。</p>
         </article>
         <article class="support-card">
-          <h3>Report numbers look inconsistent</h3>
-          <p>Check selected stores, platforms, date range, and report period. Weekly and monthly views aggregate data differently.</p>
+          <h3>报表数字看起来不一致</h3>
+          <p>请检查筛选的门店、平台、日期范围和报表周期。周报和月报会按不同时间范围汇总。</p>
         </article>
         <article class="support-card">
-          <h3>Export failed</h3>
-          <p>Make sure the destination folder is writable and the target file is not already open or locked by another app.</p>
+          <h3>导出失败</h3>
+          <p>请确认目标文件夹有写入权限，并避免导出到已经被其他应用打开或锁定的文件。</p>
         </article>
         <article class="support-card">
-          <h3>Data privacy</h3>
-          <p>The current app processes imported data locally by default, does not require account registration, and does not proactively upload business reports.</p>
+          <h3>数据隐私</h3>
+          <p>当前应用默认在本地处理导入数据，不要求注册账号，也不会主动上传经营报表。</p>
         </article>
       </div>
     </section>
 
     <section>
-      <h2>Please include the following in support requests</h2>
+      <h2>联系我们时请提供</h2>
       <ul>
-        <li>Your app version and macOS version.</li>
-        <li>Steps to reproduce, such as import, filter, chart view, or export actions.</li>
-        <li>Relevant screenshots, error messages, or sample-file notes. Do not send sensitive business data unless you confirm it is safe to share.</li>
-        <li>Your expected outcome, such as successful import, corrected metric behavior, or a specific export format.</li>
+        <li>您使用的应用版本号和 macOS 版本。</li>
+        <li>问题发生的具体步骤，例如导入、筛选、查看图表或导出。</li>
+        <li>相关截图、错误提示或示例文件说明。请不要发送敏感经营数据，除非您确认可以共享。</li>
+        <li>您希望得到的结果，例如成功导入、修正统计口径或导出指定格式。</li>
       </ul>
     </section>
 
     <section>
-      <h2>Privacy Policy</h2>
-      <p>For details about how imported data, exported reports, and local storage are handled, see the <a href="privacy-policy.html?lang=en">Privacy Policy</a>.</p>
+      <h2>隐私政策</h2>
+      <p>关于应用如何处理导入数据、导出报表和本地存储，请查看 <a href="privacy-policy.zh.html?lang=zh">隐私政策</a>。</p>
     </section>
 
     <footer>
-      <p>© 2026 Xiangxiaowan Business Assistant. <a href="marketing.html?lang=en">Back to Home</a> · <a href="privacy-policy.html?lang=en">Privacy Policy</a></p>
+      <p>© 2026 湘小婉经营助手。<a href="marketing.zh.html?lang=zh">返回首页</a> · <a href="privacy-policy.zh.html?lang=zh">隐私政策</a></p>
     </footer>
   </main>
 </body>

@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Xiangxiaowan Business Assistant | Food Delivery Analytics</title>
   <meta name="description" content="Xiangxiaowan Business Assistant helps restaurant owners organize food delivery data and generate weekly reports, monthly reports, platform comparisons, store comparisons, and exportable business analysis reports.">
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const lang = (params.get("lang") || "").toLowerCase();
+      if (lang.startsWith("zh")) {
+        window.location.replace("marketing.zh.html");
+      }
+    })();
+  </script>
   <style>
     :root {
       color-scheme: light;
@@ -486,7 +495,8 @@
         <a href="#features">Features</a>
         <a href="#decisions">Decision View</a>
         <a href="#privacy">Privacy</a>
-        <a href="support.html">Support</a>
+        <a href="support.html?lang=en">Support</a>
+        <a href="marketing.zh.html?lang=zh">中文</a>
         <a class="button" href="#download">Get the App</a>
       </div>
     </nav>
@@ -500,7 +510,7 @@
         <p>Turn raw data from Meituan, Ele.me, and JD Delivery into clear weekly reports, monthly summaries, store comparisons, and platform trends so you can spot what is driving profit and what needs adjustment.</p>
         <div class="hero-actions">
           <a class="button" href="#download">Get the App</a>
-          <a class="button secondary" href="privacy-policy.html">View Privacy Policy</a>
+          <a class="button secondary" href="privacy-policy.html?lang=en">View Privacy Policy</a>
         </div>
       </div>
 
@@ -684,15 +694,15 @@
         <p>You can use this page as your App Store marketing or support site. After launch, replace the button links with your live App Store URL.</p>
       </div>
       <div class="hero-actions">
-        <a class="button" href="support.html">Contact Support</a>
-        <a class="button secondary" href="privacy-policy.html">Privacy Policy</a>
+        <a class="button" href="support.html?lang=en">Contact Support</a>
+        <a class="button secondary" href="privacy-policy.html?lang=en">Privacy Policy</a>
       </div>
     </div>
   </section>
 
   <footer>
     <span>© 2026 Xiangxiaowan Business Assistant</span>
-    <span><a href="privacy-policy.html">Privacy Policy</a> · <a href="support.html">Support</a></span>
+    <span><a href="privacy-policy.html?lang=en">Privacy Policy</a> · <a href="support.html?lang=en">Support</a></span>
   </footer>
 </body>
 </html>
