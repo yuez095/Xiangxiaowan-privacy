@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sample Data | Xiangxiaowan Business Assistant</title>
+  <meta name="description" content="Download sample CSV and XLSX files for Xiangxiaowan Business Assistant App Review and testing.">
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const lang = (params.get("lang") || "").toLowerCase();
+      if (lang.startsWith("zh")) {
+        window.location.replace("sample-data.zh.html");
+      }
+    })();
+  </script>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17211b;
+      --muted: #66736b;
+      --line: #e3e8e2;
+      --paper: #fffdf8;
+      --soft: #f6f1e7;
+      --brand: #b5362f;
+      --brand-dark: #7e241f;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 16px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    }
+
+    a {
+      color: var(--brand-dark);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
+    }
+
+    .page {
+      width: min(980px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 56px 0 64px;
+    }
+
+    header {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 28px;
+      margin-bottom: 30px;
+    }
+
+    .eyebrow {
+      color: var(--brand);
+      font-size: 14px;
+      font-weight: 700;
+      margin: 0 0 10px;
+    }
+
+    h1 {
+      font-size: clamp(34px, 6vw, 56px);
+      line-height: 1.08;
+      margin: 0 0 16px;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 760px;
+      margin: 0;
+    }
+
+    .lang {
+      margin-top: 14px;
+      font-weight: 700;
+    }
+
+    .panel {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      margin-bottom: 24px;
+    }
+
+    .files {
+      display: grid;
+      gap: 12px;
+    }
+
+    .file {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .name {
+      font-weight: 700;
+      word-break: break-all;
+    }
+
+    .meta {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 2px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 14px;
+      border-radius: 8px;
+      border: 1px solid var(--brand-dark);
+      background: var(--brand);
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: 14px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      margin-top: 28px;
+    }
+
+    @media (max-width: 720px) {
+      .file {
+        grid-template-columns: 1fr;
+      }
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <p class="eyebrow">Xiangxiaowan Business Assistant</p>
+      <h1>Sample Data Downloads</h1>
+      <p class="lead">Download test files for App Review and product demos. These are synthetic samples and do not contain real restaurant business data.</p>
+      <p class="lang"><a href="sample-data.zh.html?lang=zh">中文</a></p>
+    </header>
+
+    <div class="panel">
+      Includes: 2 CSV files, 3 XLSX files, and 1 README file with test instructions.
+    </div>
+
+    <section class="files" aria-label="Sample data files">
+      <article class="file">
+        <div>
+          <div class="name">README_for_App_Review.txt</div>
+          <div class="meta">Test flow notes</div>
+        </div>
+        <a class="btn" href="sample-data/README_for_App_Review.txt" download>Download</a>
+      </article>
+
+      <article class="file">
+        <div>
+          <div class="name">美团_外卖_sample.csv</div>
+          <div class="meta">Meituan delivery sample (CSV)</div>
+        </div>
+        <a class="btn" href="sample-data/%E7%BE%8E%E5%9B%A2_%E5%A4%96%E5%8D%96_sample.csv" download>Download</a>
+      </article>
+
+      <article class="file">
+        <div>
+          <div class="name">美团_拼好饭_sample.csv</div>
+          <div class="meta">Meituan group meal sample (CSV)</div>
+        </div>
+        <a class="btn" href="sample-data/%E7%BE%8E%E5%9B%A2_%E6%8B%BC%E5%A5%BD%E9%A5%AD_sample.csv" download>Download</a>
+      </article>
+
+      <article class="file">
+        <div>
+          <div class="name">饿了么_外卖_sample.xlsx</div>
+          <div class="meta">Ele.me delivery sample (XLSX)</div>
+        </div>
+        <a class="btn" href="sample-data/%E9%A5%BF%E4%BA%86%E4%B9%88_%E5%A4%96%E5%8D%96_sample.xlsx" download>Download</a>
+      </article>
+
+      <article class="file">
+        <div>
+          <div class="name">饿了么_爆品团_sample.xlsx</div>
+          <div class="meta">Ele.me hot deal group sample (XLSX)</div>
+        </div>
+        <a class="btn" href="sample-data/%E9%A5%BF%E4%BA%86%E4%B9%88_%E7%88%86%E5%93%81%E5%9B%A2_sample.xlsx" download>Download</a>
+      </article>
+
+      <article class="file">
+        <div>
+          <div class="name">京东_外卖_sample.xlsx</div>
+          <div class="meta">JD Delivery sample (XLSX)</div>
+        </div>
+        <a class="btn" href="sample-data/%E4%BA%AC%E4%B8%9C_%E5%A4%96%E5%8D%96_sample.xlsx" download>Download</a>
+      </article>
+    </section>
+
+    <footer>
+      <p>© 2026 Xiangxiaowan Business Assistant. <a href="marketing.html?lang=en">Back to Home</a> · <a href="support.html?lang=en">Support</a></p>
+    </footer>
+  </main>
+</body>
+</html>
